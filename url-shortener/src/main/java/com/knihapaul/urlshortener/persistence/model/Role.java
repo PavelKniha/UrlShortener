@@ -3,7 +3,6 @@ package com.knihapaul.urlshortener.persistence.model;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -14,7 +13,7 @@ import javax.persistence.Table;
 @Table(name = "roles")
 public class Role extends NamedEntity{
 	
-	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "roles")
+	@ManyToMany(mappedBy = "roles")
 	private Set<Privilege> privileges;
 	
 	@ManyToMany
@@ -46,6 +45,10 @@ public class Role extends NamedEntity{
 		getUsersInternal().add(user);
 	}
 	
+	public void removeUser(User user) {
+		getUsersInternal().remove(user);	
+	}
+	
 	protected void setPrivilegesInternal(Set<Privilege> privileges){
 		this.privileges = privileges;
 	}
@@ -58,12 +61,27 @@ public class Role extends NamedEntity{
 	}
 	
 	public Set<Privilege> getPrivileges(){
-		return getPrivileges();
+		return getPrivilegesInternal();
 	}
 	
 	public void addPrivilege(Privilege privilege){
 		getPrivilegesInternal().add(privilege);
 		privilege.addRole(this);
 	}
+
+	public void removePrivilege(Privilege privilege) {
+		getPrivilegesInternal().remove(privilege);
+		privilege.removeRole(this);	
+	}
+
+	public void removeAllPrivileges() {
+		Set<Privilege> privileges = getPrivilegesInternal();
+		for(Privilege privilege : privileges){
+			privilege.removeRole(this);
+		}
+		privileges.clear();
+	}
+
+
 
 }

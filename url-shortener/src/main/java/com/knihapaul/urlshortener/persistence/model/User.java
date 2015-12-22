@@ -3,7 +3,6 @@ package com.knihapaul.urlshortener.persistence.model;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
@@ -32,11 +31,10 @@ public class User extends BaseEntity {
 
 	private boolean enabled;
 
-	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "users")
+	@ManyToMany(mappedBy = "users")
 	private Set<Role> roles;
 
 	public User() {
-		super();
 		this.enabled = false;
 	}
 
@@ -98,7 +96,20 @@ public class User extends BaseEntity {
 	public void addRole(Role role) {
 		getRolesInternal().add(role);
 		role.addUser(this);
-
 	}
+	
+	public void removeRole(Role role){
+		getRolesInternal().remove(role);
+		role.removeUser(this);
+	}
+	
+	public void removeAllRoles(){
+		Set<Role> roles = getRolesInternal();
+		for(Role role : roles){
+			role.removeUser(this);
+		}
+		roles.clear();
+	}
+	
 
 }

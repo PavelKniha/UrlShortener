@@ -37,7 +37,6 @@ public class SpringJPADataConfig {
 		HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 		em.setJpaVendorAdapter(vendorAdapter);
 		em.setJpaProperties(additionalProperties());
-//		BeanUtils.copyProperties(source, target, ignoreProperties);
 		return em;
 	}
 

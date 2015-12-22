@@ -6,6 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -25,68 +26,53 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     @Autowired
     private AuthenticationSuccessHandler authenticationSuccessHandlerImpl;
 
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.authenticationProvider(authProvider());
-//    }
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(authProvider());
+    }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/resources/**");
     }
-    
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-            .inMemoryAuthentication()
-                .withUser("user").password("password").roles("USER");
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+            .csrf().disable()
+            .authorizeRequests()
+                .antMatchers("/j_spring_security_check*","/login*", "/logout*", "/registration*","/user/registration*","/resources/**","/registerSuccess*").permitAll()
+                .anyRequest().authenticated()
+                .and()
+            .formLogin()
+                .loginPage("/login.html")
+                .loginProcessingUrl("/j_spring_security_check")
+                .defaultSuccessUrl("/home.html")
+                .failureUrl("/login.html?error=true")
+                .successHandler(authenticationSuccessHandlerImpl)
+                .usernameParameter("j_username")
+                .passwordParameter("j_password")
+            .permitAll()
+                .and()
+            .sessionManagement()
+                .invalidSessionUrl("/login.html")
+                .sessionFixation().none()
+            .and()
+            .logout()
+                .invalidateHttpSession(false)
+                .logoutUrl("/j_spring_security_logout")
+                .logoutSuccessUrl("/login.html?logSucc=true")
+                .deleteCookies("JSESSIONID")
+                .permitAll();
     }
 
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        // @formatter:off
-//        http
-//            .csrf().disable()
-//            .authorizeRequests()
-//                .antMatchers("/j_spring_security_check*","/login*", "/logout*", "/signin/**", "/signup/**",
-//                        "/user/registration*", "/regitrationConfirm*", "/expiredAccount*", "/registration*",
-//                        "/badUser*", "/user/resendRegistrationToken*" ,"/forgetPassword*", "/user/resetPassword*",
-//                        "/user/changePassword*", "/emailError*", "/resources/**","/old/user/registration*","/successRegister*").permitAll()
-//                .antMatchers("/invalidSession*").anonymous()
-//                .anyRequest().authenticated()
-//                .and()
-//            .formLogin()
-//                .loginPage("/login.html")
-//                .loginProcessingUrl("/j_spring_security_check")
-//                .defaultSuccessUrl("/homepage.html")
-//                .failureUrl("/login.html?error=true")
-//                .successHandler(authenticationSuccessHandlerImpl)
-//                .usernameParameter("j_username")
-//                .passwordParameter("j_password")
-//            .permitAll()
-//                .and()
-//            .sessionManagement()
-//                .invalidSessionUrl("/invalidSession.html")
-//                .sessionFixation().none()
-//            .and()
-//            .logout()
-//                .invalidateHttpSession(false)
-//                .logoutUrl("/j_spring_security_logout")
-//                .logoutSuccessUrl("/logout.html?logSucc=true")
-//                .deleteCookies("JSESSIONID")
-//                .permitAll();
-//     // @formatter:on
-//    }
-
-    // beans
-
-//    @Bean
-//    public DaoAuthenticationProvider authProvider() {
-//        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-//        authProvider.setUserDetailsService(userDetailsService);
-//        authProvider.setPasswordEncoder(encoder());
-//        return authProvider;
-//    }
+    @Bean
+    public DaoAuthenticationProvider authProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(encoder());
+        return authProvider;
+    }
 
     @Bean
     public PasswordEncoder encoder() {

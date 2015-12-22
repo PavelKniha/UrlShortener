@@ -86,6 +86,12 @@
 
 		<!-- Validation -->
 		<dependency>
+			<groupId>org.passay</groupId>
+			<artifactId>passay</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+		<dependency>
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
 			<version>1.1.0.Final</version>
@@ -95,12 +101,25 @@
 			<artifactId>hibernate-validator</artifactId>
 			<version>5.2.2.Final</version>
 		</dependency>
+		<dependency>
+			<groupId>org.glassfish</groupId>
+			<artifactId>javax.el</artifactId>
+			<version>3.0.0</version>
+			<scope>test</scope>
+		</dependency>
 
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>2.6.0</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>r05</version>
+		</dependency>
+
 
 		<!-- package front end assets to optimaze re <dependency> <groupId>ro.isdc.wro4j</groupId> 
 			<artifactId>wro4j-core</artifactId> <version>1.7.9</version> </dependency> -->

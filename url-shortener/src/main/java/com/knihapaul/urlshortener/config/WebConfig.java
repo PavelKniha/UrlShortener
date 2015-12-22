@@ -18,20 +18,20 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
+import com.knihapaul.urlshortener.validation.EmailValidator;
+
 @Configuration
 @ComponentScan(basePackages = { "com.knihapaul.urlshortener.web" })
 @EnableWebMvc
 public class WebConfig extends WebMvcConfigurerAdapter{
 	
-	public WebConfig() {
-		super();
-	}
-	
-	
 	@Override
     public void addViewControllers(final ViewControllerRegistry registry) {
         super.addViewControllers(registry);
-        registry.addViewController("/").setViewName("index");;
+        registry.addViewController("/login.html");
+        registry.addViewController("/registration.html");
+        registry.addViewController("/registerSuccess.html");
+        
 	}
 
     @Override
@@ -44,15 +44,13 @@ public class WebConfig extends WebMvcConfigurerAdapter{
 		Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
 		builder.indentOutput(true).dateFormat(new SimpleDateFormat("yyyy-MM-dd"));
 		converters.add(new MappingJackson2HttpMessageConverter(builder.build()));
-	}
-    
-    
+	}  
 
     @Bean
     public ViewResolver viewResolver() {
         final InternalResourceViewResolver bean = new InternalResourceViewResolver();
         bean.setViewClass(JstlView.class);
-        bean.setPrefix("/WEB-INF/jsp/");
+        bean.setPrefix("/WEB-INF/views/");
         bean.setSuffix(".jsp");
         return bean;
     }
@@ -61,6 +59,11 @@ public class WebConfig extends WebMvcConfigurerAdapter{
     public void configureDefaultServletHandling(
     		DefaultServletHandlerConfigurer configurer) {
     	configurer.enable();
+    }
+    
+    @Bean
+    public EmailValidator usernameValidator() {
+        return new EmailValidator();
     }
 
 }

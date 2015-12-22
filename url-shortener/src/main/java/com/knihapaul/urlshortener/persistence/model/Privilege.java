@@ -41,5 +41,9 @@ public class Privilege extends NamedEntity{
 	public void addRole(Role role){
 		getRolesInternal().add(role);
 	}
+
+	public void removeRole(Role role) {
+		getRolesInternal().remove(role);		
+	}
 	
 }
