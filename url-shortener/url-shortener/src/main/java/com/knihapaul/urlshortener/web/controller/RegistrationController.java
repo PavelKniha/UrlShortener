@@ -27,22 +27,25 @@ public class RegistrationController {
 	@RequestMapping(value = "/user/registration", method = RequestMethod.POST)
 	@ResponseBody
 	public GenericResponse registerUser(@Valid UserDto userDto) {
-		User registered = createNewUser(userDto);
-		if (registered == null) {
-			throw new EmailAlreadyExistException("User with email: "
-					+ userDto.getEmail() + " already exists");
-		}
+//		User registered = createNewUser(userDto);
+		User registered = userService.registerNewUser(userDto);
+//		if (registered == null) {
+//			throw new EmailAlreadyExistException("User with email: "
+//					+ userDto.getEmail() + " already exists");
+//		}
 		return new GenericResponse("success");
 	}
 
-	private User createNewUser(UserDto userDto) {
-		User user = null;
-		try {
-			user = userService.registerNewUser(userDto);
-		} catch (EmailAlreadyExistException e) {
-			return null;
-		}
-		return user;
-	}
+//	private User createNewUser(UserDto userDto) {
+//		User user = null;
+//		try{
+//		user = userService.registerNewUser(userDto);
+//		} catch (EmailAlreadyExistException e){
+//			return null;
+//		}
+//		return user;		
+//	}
+	
+
 
 }

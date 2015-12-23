@@ -10,9 +10,6 @@ label{padding-left:0 !important}
 </style>
 </head>
 <body>
-<c:if test="${param.error != null}">
- <div class="alert alert-danger">${SPRING_SECURITY_EXCEPTION}</div>
-</c:if>
     <div class="container">
         <div class="row wrapper">
         <h1>Login</h1>

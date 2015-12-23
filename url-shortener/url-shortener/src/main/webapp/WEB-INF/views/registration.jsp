@@ -34,9 +34,8 @@
                     <label class="col-sm-3">Password</label>
                     <span class="col-sm-5"><input id="password" class="form-control" name="password" value="" type="password" required/></span>
                     <span id="passwordError" class="alert alert-danger col-sm-4" style="display:none"></span>
-                	
+                	<span id="globalError" class="alert alert-danger col-sm-4" style="display:none"></span>
                 </div>
-                <span id="globalError" class="alert alert-danger col-sm-4" style="display:none"></span>
                 <br>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>

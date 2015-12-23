@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService{
 	@Transactional
 	public User registerNewUser(UserDto userDto){
 		if(emailExists(userDto.getEmail())){
-			throw new EmailAlreadyExistException("User with email: " + userDto.getEmail() + " already exists");
+			throw new EmailAlreadyExistException("User with this email: " + userDto.getEmail() + " already exists");
 		}
 		User user = new User();
 		BeanUtils.copyProperties(userDto, user, "password");

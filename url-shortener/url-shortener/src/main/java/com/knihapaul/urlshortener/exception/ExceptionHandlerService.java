@@ -32,7 +32,7 @@ public class ExceptionHandlerService extends ResponseEntityExceptionHandler{
         return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
     
-    @ExceptionHandler({EmailAlreadyExistException.class})
+    @ExceptionHandler({ EmailAlreadyExistException.class })
     public ResponseEntity<Object> handleUserAlreadyExist(final RuntimeException ex, final WebRequest request) {
         logger.error("409 Status Code", ex);
         final GenericResponse bodyOfResponse = new GenericResponse(ex.getMessage(),"UserAlreadyExist");
