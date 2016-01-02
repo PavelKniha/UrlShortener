@@ -15,23 +15,12 @@ public class Privilege extends NamedEntity{
 	
 	@ManyToMany
 	@JoinTable(name = "privileges_roles", joinColumns = @JoinColumn(name = "privileges_id"), inverseJoinColumns = @JoinColumn(name = "roles_id"))
-	Set<Role> roles;
+	private Set<Role> roles;
 	
 	public Privilege() {}
 	
 	public Privilege(String name) {
 		this.name = name;
-	}
-	
-	protected void setRolesInternal(Set<Role> roles){
-		this.roles = roles;
-	}
-	
-	protected Set<Role> getRolesInternal(){
-		if(this.roles == null){
-			this.roles = new HashSet<>();
-		}
-		return this.roles;
 	}
 	
 	public Set<Role> getRoles(){
@@ -46,4 +35,14 @@ public class Privilege extends NamedEntity{
 		getRolesInternal().remove(role);		
 	}
 	
+	protected void setRolesInternal(Set<Role> roles){
+		this.roles = roles;
+	}
+	
+	protected Set<Role> getRolesInternal(){
+		if(this.roles == null){
+			this.roles = new HashSet<>();
+		}
+		return this.roles;
+	}
 }

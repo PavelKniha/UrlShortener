@@ -23,47 +23,55 @@ import com.knihapaul.urlshortener.validation.EmailValidator;
 @Configuration
 @ComponentScan(basePackages = { "com.knihapaul.urlshortener.web" })
 @EnableWebMvc
-public class WebConfig extends WebMvcConfigurerAdapter{
-	
+public class WebConfig extends WebMvcConfigurerAdapter {
+
 	@Override
-    public void addViewControllers(final ViewControllerRegistry registry) {
-        super.addViewControllers(registry);
-        registry.addViewController("/login.html");
-        registry.addViewController("/registration.html");
-        registry.addViewController("/registerSuccess.html");
-        
+	public void addViewControllers(final ViewControllerRegistry registry) {
+		super.addViewControllers(registry);
+//		registry.addViewController("/").setViewName("home");
+//		registry.addViewController("/home").setViewName("home");
+		registry.addViewController("/login.html");
+		registry.addViewController("/registration.html");
+		registry.addViewController("/registerSuccess.html");
+
 	}
 
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**").addResourceLocations("/", "/resources/");
-    }
-    
-    @Override
-	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-		Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
-		builder.indentOutput(true).dateFormat(new SimpleDateFormat("yyyy-MM-dd"));
-		converters.add(new MappingJackson2HttpMessageConverter(builder.build()));
-	}  
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/resources/**").addResourceLocations(
+				"/resources/");
+		registry.addResourceHandler("/webjars/**").addResourceLocations(
+				"classpath:/META-INF/resources/webjars/");
+	}
 
-    @Bean
-    public ViewResolver viewResolver() {
-        final InternalResourceViewResolver bean = new InternalResourceViewResolver();
-        bean.setViewClass(JstlView.class);
-        bean.setPrefix("/WEB-INF/views/");
-        bean.setSuffix(".jsp");
-        return bean;
-    }
-    
-    @Override
-    public void configureDefaultServletHandling(
-    		DefaultServletHandlerConfigurer configurer) {
-    	configurer.enable();
-    }
-    
-    @Bean
-    public EmailValidator usernameValidator() {
-        return new EmailValidator();
-    }
+	@Override
+	public void configureMessageConverters(
+			List<HttpMessageConverter<?>> converters) {
+		Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
+		builder.indentOutput(true).dateFormat(
+				new SimpleDateFormat("yyyy-MM-dd"));
+		converters
+				.add(new MappingJackson2HttpMessageConverter(builder.build()));
+	}
+
+	@Bean
+	public ViewResolver viewResolver() {
+		final InternalResourceViewResolver bean = new InternalResourceViewResolver();
+		bean.setViewClass(JstlView.class);
+		bean.setPrefix("/WEB-INF/jsp/");
+		bean.setSuffix(".jsp");
+		return bean;
+	}
+
+	@Override
+	public void configureDefaultServletHandling(
+			DefaultServletHandlerConfigurer configurer) {
+		configurer.enable();
+	}
+
+	@Bean
+	public EmailValidator usernameValidator() {
+		return new EmailValidator();
+	}
 
 }

@@ -45,7 +45,7 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
         }
         
         if (isUser) {
-            return "/home.html?user=" + authentication.getName();
+            return "/home?user=" + authentication.getName();
         }else {
             throw new IllegalStateException();
         }

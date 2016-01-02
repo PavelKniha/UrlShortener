@@ -10,6 +10,11 @@
 	<properties>
 		<jdk.version>1.7</jdk.version>
 		<spring.version>4.2.3.RELEASE</spring.version>
+        <webjars-bootstrap.version>2.3.0</webjars-bootstrap.version>
+        <webjars-jquery-ui.version>1.10.3</webjars-jquery-ui.version>
+        <webjars-jquery.version>2.0.3-1</webjars-jquery.version>
+        <dandelion.version>1.1.1</dandelion.version>
+        <dandelion.datatables.version>1.1.0</dandelion.datatables.version>
 	</properties>
 
 	<dependencies>
@@ -161,11 +166,36 @@
 			<artifactId>javax.transaction-api</artifactId>
 			<version>1.2</version>
 		</dependency>
+		<!-- Webjars (static dependencies distributed as JAR files) -->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>${webjars-bootstrap.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>jquery-ui</artifactId>
+            <version>${webjars-jquery-ui.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>jquery</artifactId>
+            <version>${webjars-jquery.version}</version>
+        </dependency>
+        <!-- Dandelion -->
+        <dependency>
+            <groupId>com.github.dandelion</groupId>
+            <artifactId>dandelion-jsp</artifactId>
+            <version>${dandelion.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.dandelion</groupId>
+            <artifactId>datatables-jsp</artifactId>
+            <version>${dandelion.datatables.version}</version>
+        </dependency>
+    </dependencies>
 
 
-
-
-	</dependencies>
 	<build>
 		<finalName>url-shortener</finalName>
 		<pluginManagement>

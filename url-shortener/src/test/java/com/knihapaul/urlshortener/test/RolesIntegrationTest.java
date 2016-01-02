@@ -87,7 +87,6 @@ public class RolesIntegrationTest {
 		assertNotNull(writePrivilege);
 		assertNotNull(readPrivilege);		
 		
-		role.removeAllPrivileges();
 		roleRepository.delete(role);
 		entityManager.flush();
 		entityManager.clear();
@@ -122,7 +121,6 @@ public class RolesIntegrationTest {
 		
 		assertNotNull(user);
 		
-		user.removeAllRoles();
 		userRepository.delete(user);
 		entityManager.flush();
 		entityManager.clear();

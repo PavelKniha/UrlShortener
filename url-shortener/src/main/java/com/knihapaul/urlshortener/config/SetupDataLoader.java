@@ -44,17 +44,22 @@ public class SetupDataLoader implements	ApplicationListener<ContextRefreshedEven
 		Privilege writePrivilege = createPrivilege("WRITE_PRIVILEGE");
 
 		createRole("ROLE_USER", Arrays.asList(readPrivilege, writePrivilege));
+		createRole("ROLE_ADMIN", Arrays.asList(readPrivilege, writePrivilege));
 
 		Role userRole = roleRepository.findByName("ROLE_USER");
+		Role adminRole = roleRepository.findByName("ROLE_ADMIN");
 		User user = new User();
 		user.setFirstName("Ivan");
 		user.setLastName("Ivanov");
 		user.setPassword(passwordEncoder.encode("Pasha@123"));
 		user.setEmail("iceways@mail.ru");
 		user.addRole(userRole);
+		user.addRole(adminRole);
 		user.setEnabled(true);
 		
 		userRepository.save(user);
+		
+		
 		alreadyInstall = true;
  
 	}
